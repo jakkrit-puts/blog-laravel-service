@@ -2,6 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UploadController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +18,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::get('/blogs', [BlogController::class, 'index']);
+Route::get('/blogs/{slug}', [BlogController::class, 'show']);
+
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::middleware(['jwt.auth'])->group(function () {
+    Route::get('/profile', [AuthController::class, 'profile']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+
+    Route::post('/blogs', [BlogController::class, 'store']);
+    Route::put('/blogs/{id}', [BlogController::class, 'update']);
+    Route::delete('/blogs/{id}', [BlogController::class, 'destroy']);
+
+    Route::post('/uploadImage', [UploadController::class, 'uploadImage']);
 });
+
