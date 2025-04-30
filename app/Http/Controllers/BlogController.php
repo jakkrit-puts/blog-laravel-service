@@ -15,6 +15,10 @@ class BlogController extends Controller
 
     public function store(Request $request)
     {
+        $user = $request->user();
+        if ($user->role !== 'admin') {
+            return response()->json(['message' => 'You are not authorized.'], 403);
+        }
 
         $request->validate([
             'title' => 'required',
@@ -40,17 +44,22 @@ class BlogController extends Controller
 
     public function show($slug)
     {
-        $blog = Blog::with('user:id,name')->where('slug', $slug)->first();
+            $blog = Blog::with('user:id,name')->where('slug', $slug)->first();
 
-        if (!$blog) {
-            return response()->json(['error' => 'Blog not found'], 404);
-        }
+            if (!$blog) {
+                return response()->json(['error' => 'Blog not found'], 404);
+            }
 
-        return response()->json($blog);
+            return response()->json($blog);
     }
 
     public function update(Request $request, $id)
     {
+            $user = $request->user();
+            if ($user->role !== 'admin') {
+                return response()->json(['message' => 'You are not authorized.'], 403);
+            }
+
             $request->validate([
                 'title' => 'required',
                 'content' => 'required',
@@ -81,6 +90,12 @@ class BlogController extends Controller
 
     public function destroy(Blog $blog)
     {
+
+        $user = $request->user();
+        if ($user->role !== 'admin') {
+            return response()->json(['message' => 'You are not authorized.'], 403);
+        }
+
         if ($blog->image) Storage::disk('public')->delete($blog->image);
         $blog->delete();
         return response()->json(['message' => 'Blog Deleted.']);

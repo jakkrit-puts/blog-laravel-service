@@ -19,5 +19,12 @@ class AdminSeeder extends Seeder
             'password' => bcrypt('password'),
             'role' => 'admin',
         ]);
+
+        // User::create([
+        //     'name' => 'Member',
+        //     'email' => 'member@jakkrit.site',
+        //     'password' => bcrypt('Aa112233'),
+        //     'role' => 'user',
+        // ]);
     }
 }

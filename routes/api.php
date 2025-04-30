@@ -23,7 +23,7 @@ Route::get('/blogs/{slug}', [BlogController::class, 'show']);
 
 Route::post('/login', [AuthController::class, 'login']);
 
-Route::middleware(['jwt.auth'])->group(function () {
+Route::middleware(['jwt.auth', 'isAdmin'])->group(function () {
     Route::get('/profile', [AuthController::class, 'profile']);
     Route::post('/logout', [AuthController::class, 'logout']);
 
