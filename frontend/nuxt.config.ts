@@ -21,7 +21,4 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
   components: true,
-  imports: {
-    autoImport: true, 
-  },
 });
