@@ -24,10 +24,14 @@ Route::get('/blogs/{slug}', [BlogController::class, 'show']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
-Route::middleware(['jwt.auth', 'isAdmin'])->group(function () {
+Route::middleware(['jwt.auth'])->group(function () {
     Route::get('/profile', [AuthController::class, 'profile']);
     Route::post('/logout', [AuthController::class, 'logout']);
+});
 
+
+
+Route::middleware(['jwt.auth', 'isAdmin'])->group(function () {
     Route::post('/blogs', [BlogController::class, 'store']);
     Route::put('/blogs/{id}', [BlogController::class, 'update']);
     Route::delete('/blogs/{id}', [BlogController::class, 'destroy']);

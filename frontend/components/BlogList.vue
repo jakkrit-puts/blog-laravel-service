@@ -87,7 +87,7 @@ const blogs: Blog[] = [
     <div class="mb-10 lg:mb-20">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-5">
             <div v-for="item in blogs" :key="item._id" class="rounded-lg overflow-hidden">
-                <NuxtImg :src="item.image" alt="image blog" quality="80" width="400" height="100" loading="lazy" />
+                <NuxtImg :src="item.image" class="w-full object-cover" alt="image blog" quality="80" loading="lazy" />
                 <div class="bg-blog_light_bg/70 p-5">
                     <div class="text-xs flex items-center gap-5">
                         <div class="flex items-center relative group cursor-pointer">
