@@ -17,7 +17,7 @@ import BlogList from '@/components/BlogList.vue'
 import AppContainer from '@/components/AppContainer.vue'
 
 const { getBlogs } = useBlogs()
-const { data: blogs, pending, error } = await useAsyncData('blogs', () => getBlogs())
+const { data: blogs, pending, error } = await useAsyncData('blogs-public', () => getBlogs())
 </script>
 
 <style></style>

@@ -1,26 +1,31 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
-  <AppContainer class="py-8">
-    <h1 class="text-3xl font-bold pb-2">{{ "Blog 01" }}</h1>
+  <AppContainer :key="slug as string" class="py-8" >
+    <h1 class="text-3xl font-bold pb-2">{{ blogs?.title }}</h1>
     <div class="flex items-center gap-4">
-      <p class="text-gray-600">Published: {{ "2024-11-01" }}</p>
-
-      <Badge>Tech</Badge>
-
+      <p class="text-gray-600">Published: {{  dayjs(blogs?.created_at).format('DD-MM-YYYY') }}</p>
+      <Badge>{{ blogs?.user?.name }}</Badge>
     </div>
-    <div class="mt-4">
-      Content
+    <div class="mt-14">
+      <div v-if="blogs?.content" v-html="blogs?.content" />
     </div>
   </AppContainer>
-</template>
+</template> 
 
 <script lang="ts" setup>
 import { Badge } from '@/components/ui/badge'
+import dayjs from 'dayjs';
 
 const route = useRoute();
 const slug = route.params.slug;
+const { getBlog } = useBlogs()
 
-console.log({ slug });
+const { data: blogs } = await useAsyncData(`blogs-${slug}`, () => getBlog(slug as string))
 
+onBeforeRouteUpdate((to, from, next) => {
+  refreshNuxtData('blogs')
+  next()
+})
 </script>
 
 <style></style>
