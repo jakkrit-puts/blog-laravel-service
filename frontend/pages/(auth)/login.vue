@@ -3,7 +3,7 @@
     <Card class="w-[90vw] max-w-sm p-4 space-y-3">
       <CardHeader class="flex flex-col items-center">
         <CardTitle class="text-lg">Login</CardTitle>
-        <CardDescription class="text-sm">เข้าสู่ระบบ Admin</CardDescription>
+        <CardDescription class="text-sm">เข้าสู่ระบบ</CardDescription>
       </CardHeader>
       <CardContent class="pb-4">
         <form class="space-y-3" @submit="onSubmit">

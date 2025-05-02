@@ -1,70 +1,5 @@
-<script setup lang="ts">
-import {
-  Table,
-  TableBody,
-  // TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/table'
-
-const invoices = [
-  {
-    id: 1,
-    title: 'INV001',
-    paymentStatus: 'Paid',
-    totalAmount: '$250.00',
-    paymentMethod: 'Credit Card',
-  },
-  {
-    id: 2,
-    title: 'INV002',
-    paymentStatus: 'Pending',
-    totalAmount: '$150.00',
-    paymentMethod: 'PayPal',
-  },
-  {
-    id: 3,
-    title: 'INV003',
-    paymentStatus: 'Unpaid',
-    totalAmount: '$350.00',
-    paymentMethod: 'Bank Transfer',
-  },
-  {
-    id: 4,
-    title: 'INV004',
-    paymentStatus: 'Paid',
-    totalAmount: '$450.00',
-    paymentMethod: 'Credit Card',
-  },
-  {
-    id: 5,
-    title: 'INV005',
-    paymentStatus: 'Paid',
-    totalAmount: '$550.00',
-    paymentMethod: 'PayPal',
-  },
-  {
-    id: 6,
-    title: 'INV006',
-    paymentStatus: 'Pending',
-    totalAmount: '$200.00',
-    paymentMethod: 'Bank Transfer',
-  },
-  {
-    id: 7,
-    title: 'INV007',
-    paymentStatus: 'Unpaid',
-    totalAmount: '$300.00',
-    paymentMethod: 'Credit Card',
-  },
-]
-</script>
-
 <template>
   <Table>
-    <!-- <TableCaption>A list of your recent blogs.</TableCaption> -->
     <TableHeader>
       <TableRow>
         <TableHead class="w-[100px]">
@@ -75,31 +10,86 @@ const invoices = [
         </TableHead>
         <TableHead>Author</TableHead>
         <TableHead>Date</TableHead>
-        <TableHead>
-          Status
-        </TableHead>
         <TableHead class="text-center">
           Action
         </TableHead>
       </TableRow>
     </TableHeader>
     <TableBody>
-      <TableRow v-for="item in invoices" :key="item.id">
+      <TableRow v-for="item in blogs" :key="item.id">
         <TableCell class="font-medium">
           {{ item.id }}
         </TableCell>
         <TableCell class="font-medium">
           {{ item.title }}
         </TableCell>
-        <TableCell>{{ item.paymentStatus }}</TableCell>
-        <TableCell>{{ item.paymentMethod }}</TableCell>
-        <TableCell>
-          {{ item.totalAmount }}
-        </TableCell>
+        <TableCell>{{ item.user.name }}</TableCell>
+        <TableCell>{{ dayjs(item?.created_at).format('DD-MM-YYYY') }}</TableCell>
         <TableCell class="text-center">
-          UPDATE|DELETE
+          <div class="space-x-2">
+            <Button class="bg-sky-700" size="icon"  @click="handleUpdate(item?.slug)">
+              <Pen :size="20" />
+            </Button>
+            <Button class="bg-red-500" size="icon" @click="handleRemove(item?.id)" >
+              <Trash2 :size="20" />
+            </Button>
+          </div>
         </TableCell>
       </TableRow>
     </TableBody>
   </Table>
 </template>
+
+<script setup lang="ts">
+import {
+  Table,
+  TableBody,
+  // TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table'
+import { Pen, Trash2 } from 'lucide-vue-next';
+import dayjs from 'dayjs';
+import { useRouter } from "vue-router";
+
+
+export interface IBlogResponse {
+  id: number;
+  title: string;
+  content: string;
+  slug: string;
+  image: string;
+  user_id: number;
+  created_at: Date;
+  updated_at: Date;
+  user: User;
+}
+
+export interface User {
+  name: string;
+}
+
+defineProps<{
+  blogs: Array<IBlogResponse>,
+}>()
+
+const emit = defineEmits<{
+  (e: 'refresh'): void
+}>()
+
+const { removeBlogs } = useBlogs()
+const router = useRouter()
+
+
+const handleRemove = async (id: number) => {
+  await removeBlogs(id)
+  emit('refresh')
+}
+
+const handleUpdate = async (slug: string) => {
+  router.push({ path: '/admin/blogs/update', query: { slug: slug } })
+}
+
+</script>

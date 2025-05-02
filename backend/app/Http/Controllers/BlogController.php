@@ -17,7 +17,7 @@ class BlogController extends Controller
     {
         $user = $request->user();
         if ($user->role !== 'admin') {
-            return response()->json(['message' => 'You are not authorized.'], 403);
+            return response()->json(['message' => 'You are not authorized. Admin Only'], 403);
         }
 
         $request->validate([
@@ -33,13 +33,16 @@ class BlogController extends Controller
 
         $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $request->title,)));
 
-        return Blog::create([
+        $data = Blog::create([
             'title' => $request->title,
             'content' => $request->content,
             'image' => $request->image,
             'slug' => $slug,
             'user_id' => $request->user()->id,
         ]);
+
+        return response()->json(['message' => 'Blog created Succesfully', 'data' => $data], 201);
+
     }
 
     public function show($slug)
@@ -57,7 +60,7 @@ class BlogController extends Controller
     {
             $user = $request->user();
             if ($user->role !== 'admin') {
-                return response()->json(['message' => 'You are not authorized.'], 403);
+                return response()->json(['message' => 'You are not authorized. Admin Only'], 403);
             }
 
             $request->validate([
@@ -83,22 +86,26 @@ class BlogController extends Controller
 
             $blog->save();
 
-            return response()->json(['message' => 'Blog updated.', 'blog' => $blog]);
+            return response()->json(['message' => 'Blog updated Succesfully.', 'blog' => $blog]);
     }
 
-
-
-    public function destroy(Blog $blog)
+    public function destroy(Request $request, int $id)
     {
-
         $user = $request->user();
+
         if ($user->role !== 'admin') {
-            return response()->json(['message' => 'You are not authorized.'], 403);
+            return response()->json(['message' => 'You are not authorized. Admin Only'], 403);
         }
 
-        if ($blog->image) Storage::disk('public')->delete($blog->image);
+        $blog = Blog::findOrFail($id);
+
+        if ($blog->image) {
+            Storage::disk('public')->delete($blog->image);
+        }
+
         $blog->delete();
-        return response()->json(['message' => 'Blog Deleted.']);
+
+        return response()->json(['message' => 'Blog Deleted Succesfully.']);
     }
 }
 
