@@ -16,8 +16,14 @@
 import BlogList from '@/components/BlogList.vue'
 import AppContainer from '@/components/AppContainer.vue'
 
+const start = performance.now()
+
 const { getBlogs } = useBlogs()
 const { data: blogs, pending, error } = await useAsyncData('blogs-public', () => getBlogs())
+
+const end = performance.now()
+console.log(`API Response Time: ${Math.round(end - start)} ms`)
+
 </script>
 
 <style></style>
