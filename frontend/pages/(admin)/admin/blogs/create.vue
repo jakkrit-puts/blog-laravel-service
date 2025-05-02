@@ -2,7 +2,7 @@
   <AppContainer class="py-8">
     <div class="flex items-center justify-between pb-4">
       <h1 class="text-xl font-bold pb-2">Add Blog</h1>
-      <Button @click="goToBack()" variant="link">
+      <Button variant="link" @click="goToBack()">
         <ArrowLeft />
       </Button>
     </div>
