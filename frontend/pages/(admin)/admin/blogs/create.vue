@@ -33,7 +33,7 @@
               v-model="content" 
               :init="{
               height: 400,
-              plugins: 'image code',
+              plugins: 'image preview',
               automatic_uploads: true,
               images_upload_handler: convertBlobToFile,
               menu: {
@@ -47,7 +47,7 @@
                 help: { title: 'Help', items: 'help' }
               },
               // plugins: 'link image code',
-              toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
+              toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code | image preview code'
             }" :api-key="API_TINY" />
               <p v-if="uploadingImageEditor" class="text-yellow-600">Uploading...</p>
               <p v-if="uploadingImageEditorError" class="text-red-600">{{ uploadError }}</p>
@@ -130,6 +130,7 @@ const convertBlobToFile = async (
     const uploadedPath = await uploadImageForEditor(file)
 
     if (uploadedPath) {
+      console.log(uploadedPath);
       imagePathEditor.value = uploadedPath
       success(uploadedPath)
     } else {
@@ -171,7 +172,7 @@ const uploadImageForEditor = async (file: File): Promise<string | null> => {
       headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${token.value}` },
     })
 
-    return response.data.path
+    return response.data.url
   } catch (e) {
     console.log(e);
     return null
@@ -205,7 +206,7 @@ const onSubmit = handleSubmit((values) => {
     image: imagePath.value,
     content: content.value
   }
-  console.log('Submit Payload:', payloadCreateBlog)
+  console.log('Submit Payload:', JSON.stringify(payloadCreateBlog))
 })
 
 

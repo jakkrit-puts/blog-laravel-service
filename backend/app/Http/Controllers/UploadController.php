@@ -17,7 +17,8 @@ class UploadController extends Controller
 
         return response()->json([
             'message' => 'Image uploaded successfully',
-            'url' => Storage::url($path),
+            // 'url' => Storage::url($path),
+            'url' => asset('storage/' . $path),
             'path' => $path,
         ]);
     }
