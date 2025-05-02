@@ -1,14 +1,23 @@
 <template>
   <AppContainer class="py-8">
-    <!-- <TitleText class="text-4xl text-center border-b pb-4 mb-12 text-gray-600">Blog List</TitleText> -->
-    <BlogList />
+    <div v-if="pending">
+      <LoadingData msg="Data Loading..." />
+    </div>
+    <div v-else-if="error">
+      <LoadingData msg="เกิดข้อผิดพลาด !!!" />
+    </div>
+    <div v-else>
+      <BlogList :blogs="blogs" />
+    </div>
   </AppContainer>
 </template>
 
 <script lang="ts" setup>
 import BlogList from '@/components/BlogList.vue'
 import AppContainer from '@/components/AppContainer.vue'
-// import TitleText from '@/components/TitleText.vue'
+
+const { getBlogs } = useBlogs()
+const { data: blogs, pending, error } = await useAsyncData('blogs', () => getBlogs())
 </script>
 
 <style></style>

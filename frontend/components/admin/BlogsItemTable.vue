@@ -44,7 +44,6 @@
 import {
   Table,
   TableBody,
-  // TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -53,7 +52,6 @@ import {
 import { Pen, Trash2 } from 'lucide-vue-next';
 import dayjs from 'dayjs';
 import { useRouter } from "vue-router";
-
 
 export interface IBlogResponse {
   id: number;
