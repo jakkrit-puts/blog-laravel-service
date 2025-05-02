@@ -38,7 +38,7 @@ const onSubmit = async () => {
   try {
     await login(form.value)
   } catch (err) {
-    alert(err?.error || 'Login failed.')
+    alert(err?.error)
   }
 }
 </script>

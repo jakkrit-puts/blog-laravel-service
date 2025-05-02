@@ -99,7 +99,7 @@ const blogs: Blog[] = [
                         </div>
                         <p
                             class="flex items-center gap-1 text-lightColor relative group hover:cursor-pointer hover:text-blog_dark_green ">
-                            <Calendar size="15" />
+                            <Calendar :size="15"/>
                             {{ dayjs(item?.publishedAt).format('MMMM D, YYYY') }}
                             <span
                                 class="absolute left-0 -bottom-1.5 bg-lightColor/30 inline-block w-full h-[2px] group-hover:bg-blog_dark_green " />
