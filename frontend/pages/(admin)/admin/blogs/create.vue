@@ -1,16 +1,17 @@
 <template>
   <AppContainer class="py-8">
-    <div class="flex items-center justify-between pb-4">
-      <h1 class="text-xl font-bold pb-2">Add Blog</h1>
+    <div class="flex items-center justify-between  border-b w-full ">
+      <h1 class="text-xl font-bold pb-3">Add Blog</h1>
       <Button variant="link" @click="goToBack()">
         <ArrowLeft />
       </Button>
     </div>
-    <div>
+    <div class="mt-8">
       <form class="w-full space-y-6" @submit="onSubmit">
         <FormField v-slot="{ componentField }" name="title">
           <FormItem>
-            <FormLabel>Title</FormLabel>
+            <!-- <FormLabel>Title</FormLabel> -->
+            <h1 class="text-lg">หัวข้อเรื่อง</h1>
             <FormControl>
               <Input type="text" placeholder="Blog Title" v-bind="componentField" />
             </FormControl>
@@ -18,6 +19,7 @@
           </FormItem>
         </FormField>
         <div>
+          <h1 class="text-lg mb-4">รูปภาพ (Cover)</h1>
           <div class="border-2 border-dashed rounded-md p-4 text-center" @dragover.prevent @drop="onDrop">
             <p class="mb-2 font-semibold">Drag & drop image here</p>
             <input type="file" accept="image/*" @change="onFileChange">
@@ -31,7 +33,8 @@
           <p v-if="uploadError" class="text-red-600">{{ uploadError }}</p>
         </div>
         <div class="w-full">
-          Editor
+          <h1 class="text-lg mb-4">Content</h1>
+          <QuillEditor v-model="content" />
         </div>
         <Button type="submit">
           Submit
@@ -47,10 +50,11 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
+  // FormLabel,
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import QuillEditor from '~/components/QuillEditor.vue'
 import { toTypedSchema } from '@vee-validate/zod'
 import { ArrowLeft } from 'lucide-vue-next';
 import { useForm, useField } from 'vee-validate'
@@ -66,7 +70,7 @@ definePageMeta({
 const { token } = useAuth()
 
 const router = useRouter()
-
+const { create } = useBlogs()
 
 //สำหรับ upload image
 const imagePath = ref('')
@@ -129,13 +133,18 @@ const onFileChange = async (e: Event) => {
   }
 }
 
-const onSubmit = handleSubmit((values) => {
+const onSubmit = handleSubmit(async (values) => {
   const payloadCreateBlog = {
     title: values.title,
     image: imagePath.value,
     content: content.value
   }
-  console.log('Submit Payload:', JSON.stringify(payloadCreateBlog))
+
+  try {
+    await create(payloadCreateBlog);
+  } catch (err) {
+    console.log(err);
+  }
 })
 
 const goToBack = () => {

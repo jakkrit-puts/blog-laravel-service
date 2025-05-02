@@ -1,5 +1,6 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useRouter } from "vue-router";
+import { toast } from "vue-sonner";
 
 export const useAuth = () => {
   const router = useRouter();
@@ -17,7 +18,7 @@ export const useAuth = () => {
 
   const login = async (form: { email: string; password: string }) => {
     try {
-      const { data } = await axios.post(
+      const { data, status } = await axios.post(
         "http://localhost:8000/api/login",
         form
       );
@@ -28,9 +29,18 @@ export const useAuth = () => {
       useCookie("token").value = data?.access_token;
       useCookie("user").value = JSON.stringify(data?.user);
 
-      router.push("/admin");
+      console.log({ status });
+
+      if (status === 200) {
+        router.push("/admin");
+        // toast.success("เข้าสู่ระบบสำเร็จ ...");
+      }
     } catch (err) {
-      console.error(err);
+      if (err instanceof AxiosError) {
+        toast.error(err.response?.data?.error || "เกิดข้อผิดพลาด");
+      } else {
+        toast.error("เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ");
+      }
     }
   };
 
