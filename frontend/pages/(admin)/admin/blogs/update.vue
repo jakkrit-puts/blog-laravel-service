@@ -18,12 +18,35 @@
                         <FormMessage />
                     </FormItem>
                 </FormField>
+                <FormField v-slot="{ componentField }" name="description">
+                    <FormItem>
+                        <!-- <FormLabel>Title</FormLabel> -->
+                        <h1 class="text-lg">รายละเอียด</h1>
+                        <FormControl>
+                            <Input type="text" placeholder="Description" v-bind="componentField" />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                </FormField>
+                <FormField v-slot="{ componentField }" name="blog_type">
+                    <FormItem>
+                        <!-- <FormLabel>Title</FormLabel> -->
+                        <h1 class="text-lg">ประเภท</h1>
+                        <FormControl>
+                            <Input 
+                                type="text" placeholder="Blog Type เช่น. Tech, Life, Sport"
+                                v-bind="componentField" />
+                        </FormControl>
+                        <FormMessage />
+                    </FormItem>
+                </FormField>
                 <div>
                     <h1 class="text-lg mb-4">รูปภาพ (Cover)</h1>
                     <div class="border-2 border-dashed rounded-md p-4 text-center" @dragover.prevent @drop="onDrop">
                         <p class="mb-2 font-semibold">Drag & drop image here</p>
                         <input type="file" accept="image/*" @change="onFileChange">
-                        <p v-if="image && typeof image !== 'string'" class='mt-2 text-sm text-green-600 line-clamp-1'>{{ image.name }}</p>
+                        <p v-if="image && typeof image !== 'string'" class='mt-2 text-sm text-green-600 line-clamp-1'>{{
+                            image.name }}</p>
                     </div>
                     <p v-if="errorMessage" class="mt-1 text-sm text-red-600">{{ errorMessage }}</p>
                     <p v-if="imagePath" class="mt-2 text-sm text-blue-600 line-clamp-2">
@@ -50,7 +73,6 @@ import {
     FormControl,
     FormField,
     FormItem,
-    // FormLabel,
     FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
@@ -92,6 +114,8 @@ onMounted(async () => {
         const data = await getBlog(blogSlug as string)
         if (data) {
             setFieldValue('title', data.title)
+            setFieldValue('description', data.description)
+            setFieldValue('blog_type', data.blog_type)
             setFieldValue('image', data.image)
             content.value = data.content
             blogId.value = data.id
@@ -101,6 +125,8 @@ onMounted(async () => {
 
 const formSchema = toTypedSchema(z.object({
     title: z.string().min(2).max(255),
+    description: z.string().min(2).max(255),
+    blog_type: z.string().min(2).max(255),
     image: z.union([
         z.instanceof(File, { message: 'No file selected or invalid file type' })
             .refine(file => file.size < 2 * 1024 * 1024, { message: 'File too large (max 2 MB)' })
@@ -159,6 +185,8 @@ const onFileChange = async (e: Event) => {
 const onSubmit = handleSubmit(async (values) => {
     const payloadCreateBlog = {
         title: values.title,
+        description: values.description,
+        blog_type: values.blog_type,
         image: imagePath.value,
         content: content.value
     }

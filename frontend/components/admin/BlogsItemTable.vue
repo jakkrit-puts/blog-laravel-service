@@ -5,8 +5,14 @@
         <TableHead class="w-[100px]">
           #
         </TableHead>
-        <TableHead class="w-[500px]">
+        <TableHead class="w-[200px]">
           Title
+        </TableHead>
+        <TableHead class="w-[300px]">
+          Description
+        </TableHead>
+        <TableHead class="w-[50]">
+          Type
         </TableHead>
         <TableHead>Author</TableHead>
         <TableHead>Date</TableHead>
@@ -22,6 +28,14 @@
         </TableCell>
         <TableCell class="font-medium">
           {{ item.title }}
+        </TableCell>
+        <TableCell>
+          <p class="truncate w-72 max-md:w-12">
+            {{ item.description }}
+          </p>
+        </TableCell>
+        <TableCell class="font-medium">
+          {{ item.blog_type }}
         </TableCell>
         <TableCell>{{ item.user.name }}</TableCell>
         <TableCell>{{ dayjs(item?.created_at).format('DD-MM-YYYY') }}</TableCell>
@@ -57,6 +71,8 @@ export interface IBlogResponse {
   id: number;
   title: string;
   content: string;
+  description: string;
+  blog_type: string;
   slug: string;
   image: string;
   user_id: number;

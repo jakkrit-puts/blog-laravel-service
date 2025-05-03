@@ -15,7 +15,9 @@ class Blog extends Model
         'content',
         'image',
         "slug",
-        "user_id"
+        "user_id",
+        "description",
+        "blog_type"
     ];
 
 

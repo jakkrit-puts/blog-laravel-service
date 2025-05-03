@@ -28,6 +28,8 @@ class BlogController extends Controller
 
         $request->validate([
             'title' => 'required',
+            'description' => 'required',
+            'blog_type' => 'required',
             'content' => 'required',
             'image' => 'nullable|string',
         ]);
@@ -43,6 +45,8 @@ class BlogController extends Controller
             'title' => $request->title,
             'content' => $request->content,
             'image' => $request->image,
+            'description' => $request->description,
+            'blog_type' => $request->blog_type,
             'slug' => $slug,
             'user_id' => $request->user()->id,
         ]);
@@ -76,6 +80,8 @@ class BlogController extends Controller
             $request->validate([
                 'title' => 'required',
                 'content' => 'required',
+                'description' => 'required',
+                'blog_type' => 'required',
                 'image' => 'nullable|string',
             ]);
 
@@ -85,7 +91,7 @@ class BlogController extends Controller
                 return response()->json(['error' => 'Blog not found'], 404);
             }
 
-            $blog->fill($request->only('title', 'content'));
+            $blog->fill($request->only('title', 'content', 'description', 'blog_type', 'image'));
 
             if ($request->has('image')) {
                 if ($blog->image) {
