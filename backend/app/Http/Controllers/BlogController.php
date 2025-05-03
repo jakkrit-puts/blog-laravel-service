@@ -51,6 +51,7 @@ class BlogController extends Controller
             'user_id' => $request->user()->id,
         ]);
 
+        Cache::forget('blogs');
         return response()->json(['message' => 'Blog created Succesfully', 'data' => $data], 201);
 
     }
@@ -102,6 +103,7 @@ class BlogController extends Controller
 
             $blog->save();
 
+            Cache::forget('blogs');
             return response()->json(['message' => 'Blog updated Succesfully.', 'blog' => $blog]);
     }
 
@@ -121,6 +123,7 @@ class BlogController extends Controller
 
         $blog->delete();
 
+        Cache::forget('blogs');
         return response()->json(['message' => 'Blog Deleted Succesfully.']);
     }
 }
