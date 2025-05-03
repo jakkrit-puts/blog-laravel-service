@@ -16,9 +16,7 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: "th",
       },
-      link: [
-        { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      ],
+      link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
       titleTemplate: "%s | Jakkrit DEV",
       meta: [
         { charset: "utf-8" },
@@ -54,4 +52,10 @@ export default defineNuxtConfig({
     },
   },
   components: true,
+  runtimeConfig: {
+    public: {
+      apiBaseUrl:
+        process.env.NUXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api",
+    },
+  },
 });

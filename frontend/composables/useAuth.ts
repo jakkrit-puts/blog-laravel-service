@@ -4,6 +4,9 @@ import { toast } from "vue-sonner";
 
 export const useAuth = () => {
   const router = useRouter();
+  const config = useRuntimeConfig();
+  const apiBase = config.public.apiBaseUrl;
+
   const tokenCookie = useCookie("token");
   const userCookie = useCookie("user");
 
@@ -18,10 +21,7 @@ export const useAuth = () => {
 
   const login = async (form: { email: string; password: string }) => {
     try {
-      const { data, status } = await axios.post(
-        "http://localhost:8000/api/login",
-        form
-      );
+      const { data, status } = await axios.post(`${apiBase}/login`, form);
 
       token.value = data?.access_token;
       user.value = data?.user;
@@ -47,7 +47,7 @@ export const useAuth = () => {
   const logout = async () => {
     try {
       await axios.post(
-        "http://localhost:8000/api/logout",
+        `${apiBase}/logout`,
         {},
         {
           headers: {
@@ -73,10 +73,7 @@ export const useAuth = () => {
     name: string;
   }) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/register",
-        form
-      );
+      const response = await axios.post(`${apiBase}/register`, form);
 
       if (response?.status === 200) {
         toast.success(response?.data?.message);

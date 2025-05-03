@@ -86,6 +86,9 @@ definePageMeta({
   layout: 'admin'
 })
 
+const config = useRuntimeConfig()
+const apiBase = config.public.apiBaseUrl
+
 // get token จาก cookie
 const { token } = useAuth()
 
@@ -122,7 +125,7 @@ const uploadImage = async (file: File) => {
   uploadError.value = ''
 
   try {
-    const response = await axios.post('http://localhost:8000/api/uploadImage', formData, {
+    const response = await axios.post(`${apiBase}/uploadImage`, formData, {
       headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${token.value}` },
     })
     imagePath.value = response.data.path

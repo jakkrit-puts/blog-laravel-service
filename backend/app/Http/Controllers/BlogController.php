@@ -95,7 +95,7 @@ class BlogController extends Controller
 
             $blog->fill($request->only('title', 'content', 'description', 'blog_type'));
 
-            if ($request->has('image')) {
+            if ($request->has('image') && !empty($request->image)) {
                 if ($blog->image) {
                     Storage::disk('public')->delete($blog->image);
                 }

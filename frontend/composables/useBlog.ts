@@ -5,8 +5,10 @@ import type { IBlogResponse } from "~/components/admin/BlogsItemTable.vue";
 
 export const useBlogs = () => {
   const router = useRouter();
-  const tokenCookie = useCookie("token");
+  const config = useRuntimeConfig();
+  const apiBase = config.public.apiBaseUrl;
 
+  const tokenCookie = useCookie("token");
   const token = useState("token", () => tokenCookie.value || null);
 
   const create = async (data: {
@@ -15,15 +17,11 @@ export const useBlogs = () => {
     content: string;
   }) => {
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/blogs",
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${token.value}`,
-          },
-        }
-      );
+      const response = await axios.post(`${apiBase}/blogs`, data, {
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+        },
+      });
 
       if (response?.status === 201) {
         toast.success(response?.data?.message);
@@ -40,7 +38,7 @@ export const useBlogs = () => {
 
   const getBlogs = async () => {
     try {
-      const response = await axios.get("http://localhost:8000/api/blogs");
+      const response = await axios.get(`${apiBase}/blogs`);
       return response.data;
     } catch (error) {
       console.log(error);
@@ -50,7 +48,7 @@ export const useBlogs = () => {
   const getBlog = async (slug: string) => {
     try {
       const response = await axios.get<IBlogResponse>(
-        `http://localhost:8000/api/blogs/${slug}`
+        `${apiBase}/blogs/${slug}`
       );
       return response.data;
     } catch (error) {
@@ -60,14 +58,11 @@ export const useBlogs = () => {
 
   const removeBlogs = async (id: number) => {
     try {
-      const response = await axios.delete(
-        `http://localhost:8000/api/blogs/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token.value}`,
-          },
-        }
-      );
+      const response = await axios.delete(`${apiBase}/blogs/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+        },
+      });
 
       if (response?.status === 200) {
         toast.success(response?.data?.message);
@@ -90,15 +85,11 @@ export const useBlogs = () => {
     id: number
   ) => {
     try {
-      const response = await axios.put(
-        `http://localhost:8000/api/blogs/${id}`,
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${token.value}`,
-          },
-        }
-      );
+      const response = await axios.put(`${apiBase}/blogs/${id}`, data, {
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+        },
+      });
 
       if (response?.status === 200) {
         toast.success(response?.data?.message);

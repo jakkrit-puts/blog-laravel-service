@@ -88,6 +88,9 @@ definePageMeta({
     layout: 'admin'
 })
 
+const config = useRuntimeConfig()
+const apiBase = config.public.apiBaseUrl
+
 // get token จาก cookie
 const { token } = useAuth()
 // composables
@@ -104,8 +107,6 @@ const uploading = ref(false)
 const uploadError = ref('')
 const content = ref('')
 const blogId = ref<number | null>(null)
-
-
 
 onMounted(async () => {
     if (!blogSlug) return
@@ -149,7 +150,7 @@ const uploadImage = async (file: File) => {
     uploadError.value = ''
 
     try {
-        const response = await axios.post('http://localhost:8000/api/uploadImage', formData, {
+        const response = await axios.post(`${apiBase}/uploadImage`, formData, {
             headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${token.value}` },
         })
         imagePath.value = response.data.path
@@ -187,7 +188,7 @@ const onSubmit = handleSubmit(async (values) => {
         title: values.title,
         description: values.description,
         blog_type: values.blog_type,
-        image: imagePath.value ? imagePath.value: values?.image as string,
+        image: imagePath.value ? imagePath.value: '',
         content: content.value
     }
     try {
