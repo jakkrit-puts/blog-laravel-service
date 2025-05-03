@@ -187,7 +187,7 @@ const onSubmit = handleSubmit(async (values) => {
         title: values.title,
         description: values.description,
         blog_type: values.blog_type,
-        image: imagePath.value,
+        image: imagePath.value ? imagePath.value: values?.image as string,
         content: content.value
     }
     try {

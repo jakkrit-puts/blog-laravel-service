@@ -68,6 +68,7 @@ class BlogController extends Controller
             return response()->json(['error' => 'Blog not found'], 404);
         }
 
+        Cache::forget('blogs');
         return response()->json($blog);
     }
 
@@ -92,7 +93,7 @@ class BlogController extends Controller
                 return response()->json(['error' => 'Blog not found'], 404);
             }
 
-            $blog->fill($request->only('title', 'content', 'description', 'blog_type', 'image'));
+            $blog->fill($request->only('title', 'content', 'description', 'blog_type'));
 
             if ($request->has('image')) {
                 if ($blog->image) {
