@@ -20,17 +20,8 @@ export default defineNuxtConfig({
       titleTemplate: "%s | Jakkrit DEV",
       meta: [
         { charset: "utf-8" },
-        { name: "viewport", content: "width=device-width, initial-scale=1" },
-        { name: "description", content: "แชร์ความรู้ BLOG TEST" },
-        { property: "og:title", content: "Jakkrit DEV" },
-        { property: "og:description", content: "แชร์ความรู้ BLOG TEST" },
-        { property: "og:image", content: "/og-default.jpg" }, // ภาพตัวอย่างที่แชร์บนโซเชียล
-        { name: "twitter:card", content: "summary_large_image" },
-        { name: "twitter:site", content: "@yourhandle" },
-        { name: "twitter:title", content: "Jakkrit DEV" },
-        { name: "twitter:description", content: "แชร์ความรู้ BLOG TEST" },
-        { name: "twitter:image", content: "/og-default.jpg" },
-      ],
+        { name: "viewport", content: "width=device-width, initial-scale=1" }
+      ]
     },
   },
   shadcn: {
@@ -56,6 +47,7 @@ export default defineNuxtConfig({
     public: {
       apiBaseUrl:
         process.env.NUXT_PUBLIC_API_BASE_URL || "http://localhost:8000/api",
+        tinyMceApiKey: process.env.NUXT_PUBLIC_TINYMCE_API_KEY
     },
   },
 });

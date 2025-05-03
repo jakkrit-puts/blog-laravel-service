@@ -54,7 +54,27 @@
         </div>
         <div class="w-full">
           <h1 class="text-lg mb-4">Content</h1>
-          <QuillEditor v-model="content" />
+          <!-- <QuillEditor v-model="content" /> -->
+          <ClientOnly>
+            <Editor 
+            v-model="content" 
+            :init="{
+              height: 900,
+              plugins: 'image code preview',
+              automatic_uploads: true,
+              menu: {
+                file: { title: 'File', items: 'newdocument restoredraft | preview | importword exportpdf exportword | print | deleteallconversations' },
+                edit: { title: 'Edit', items: 'undo redo | cut copy paste pastetext | selectall | searchreplace' },
+                view: { title: 'View', items: 'code revisionhistory | visualaid visualchars visualblocks | spellchecker | preview fullscreen | showcomments' },
+                insert: { title: 'Insert', items: 'image link media addcomment pageembed codesample inserttable | math | charmap emoticons hr | pagebreak nonbreaking anchor tableofcontents | insertdatetime' },
+                format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript codeformat | styles blocks fontfamily fontsize align lineheight | forecolor backcolor | language | removeformat' },
+                tools: { title: 'Tools', items: 'spellchecker spellcheckerlanguage | a11ycheck code wordcount' },
+                table: { title: 'Table', items: 'inserttable | cell row column | advtablesort | tableprops deletetable' },
+                help: { title: 'Help', items: 'help' }
+              },
+              toolbar: 'undo redo | fontfamily fontsize bold italic forecolor backcolor | alignleft aligncenter alignright | image preview code',
+            }" :api-key="API_TINY_KEY" />
+          </ClientOnly>
         </div>
         <Button type="submit">
           Submit
@@ -74,7 +94,8 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import QuillEditor from '~/components/QuillEditor.vue'
+// import QuillEditor from '~/components/QuillEditor.vue'
+import Editor from '@tinymce/tinymce-vue'
 import { toTypedSchema } from '@vee-validate/zod'
 import { ArrowLeft } from 'lucide-vue-next';
 import { useForm, useField } from 'vee-validate'
@@ -87,7 +108,8 @@ definePageMeta({
 })
 
 const config = useRuntimeConfig()
-const apiBase = config.public.apiBaseUrl
+const API_BASE = config.public.apiBaseUrl
+const API_TINY_KEY = config.public.tinyMceApiKey
 
 // get token จาก cookie
 const { token } = useAuth()
@@ -125,7 +147,7 @@ const uploadImage = async (file: File) => {
   uploadError.value = ''
 
   try {
-    const response = await axios.post(`${apiBase}/uploadImage`, formData, {
+    const response = await axios.post(`${API_BASE}/uploadImage`, formData, {
       headers: { 'Content-Type': 'multipart/form-data', 'Authorization': `Bearer ${token.value}` },
     })
     imagePath.value = response.data.path

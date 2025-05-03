@@ -50,6 +50,20 @@ const { getBlog } = useBlogs()
 
 const { data: blogs } = await useAsyncData(`blogs-${slug}`, () => getBlog(slug as string))
 
+useHead(() => ({
+  title: blogs?.value?.title || 'บทความ',
+  meta: [
+    { name: 'description', content: blogs?.value?.description || 'บทความจาก Jakkrit DEV' },
+    { property: 'og:title', content: blogs?.value?.title || 'บทความ' },
+    { property: 'og:description', content: blogs?.value?.description || 'บทความจาก Jakkrit DEV' },
+    { property: 'og:image', content: blogs?.value?.image || '/og-default.jpg' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: blogs?.value?.title },
+    { name: 'twitter:description', content: blogs?.value?.description },
+    { name: 'twitter:image', content: blogs?.value?.image }
+  ]
+}))
+
 onBeforeRouteUpdate((to, from, next) => {
   refreshNuxtData('blogs')
   next()
