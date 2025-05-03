@@ -27,6 +27,12 @@
           </FormField>
           <Button type="submit" class="w-full">Login</Button>
         </form>
+        <div class="flex items-center justify-center gap-2 mt-3">
+          <span> ยังไม่มีบัญชีผู้ใช้ใช่หรือไม่ </span>
+          <NuxtLink to="/register" class="flex items-center hover:underline gap-2">
+            <ArrowRight size="16" /> สมัครสมาชิก
+          </NuxtLink>
+        </div>
       </CardContent>
     </Card>
   </div>
@@ -45,18 +51,19 @@ import {
 } from '@/components/ui/form'
 import { useForm } from 'vee-validate'
 import * as z from 'zod'
-
+import { ArrowRight } from 'lucide-vue-next';
 import { toTypedSchema } from '@vee-validate/zod'
 
 const { login } = useAuth()
 
+
 const formSchema = toTypedSchema(z.object({
   email: z.string()
-  .min(1, { message: "กรุณากรอกอีเมล" })
-  .email({ message: "อีเมลไม่ถูกต้อง" }),
+    .min(1, { message: "กรุณากรอกอีเมล" })
+    .email({ message: "อีเมลไม่ถูกต้อง" }),
   password: z.string()
-  .min(1, { message: "กรุณากรอกรหัสผ่าน" })
-  .min(8, { message: "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร" })
+    .min(1, { message: "กรุณากรอกรหัสผ่าน" })
+    .min(8, { message: "รหัสผ่านต้องมีอย่างน้อย 8 ตัวอักษร" })
 }))
 
 const { handleSubmit } = useForm({
@@ -70,5 +77,4 @@ const onSubmit = handleSubmit(async (values) => {
     alert(err?.error)
   }
 })
-
 </script>

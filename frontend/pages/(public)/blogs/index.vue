@@ -7,7 +7,8 @@
       <LoadingData msg="เกิดข้อผิดพลาด !!!" />
     </div>
     <div v-else>
-      <BlogList :blogs="blogs" />
+      <BlogList v-if="blogs?.length > 0" :blogs="blogs" />
+      <!-- <EmptyData v-else /> -->
     </div>
   </AppContainer>
 </template>

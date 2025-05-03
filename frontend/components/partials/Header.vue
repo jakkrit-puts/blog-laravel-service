@@ -16,6 +16,9 @@
             <LogOut /> <span class="max-md:hidden">Logout</span>
           </Button>
         </div>
+        <Button v-if="!user" @click="handleToLogin()">
+            <LogIn  /> <span class="max-md:hidden">Login</span>
+        </Button>
       </div>
     </AppContainer>
   </div>
@@ -24,7 +27,7 @@
 <script setup>
 import LogoSite from '@/components/LogoSite.vue'
 import AppContainer from '@/components/AppContainer.vue'
-import { LogOut, User } from 'lucide-vue-next'
+import { LogIn, LogOut, User } from 'lucide-vue-next'
 import { useRouter } from "vue-router";
 
 const { user, logout } = useAuth()
@@ -34,6 +37,9 @@ const handleToAdminDashbaord = () => {
   router.push("/admin");
 }
 
+const handleToLogin = () => {
+  router.push("/login");
+}
 </script>
 
 <style></style>

@@ -14,7 +14,8 @@
         <LoadingData msg="เกิดข้อผิดพลาด !!!" />
       </div>
       <div v-else>
-        <AdminBlogsItemTable :blogs="blogs" @refresh="refresh" />
+        <AdminBlogsItemTable v-if="blogs?.length > 0" :blogs="blogs" @refresh="refresh" />
+        <EmptyData v-else />
       </div>
     </div>
   </AppContainer>

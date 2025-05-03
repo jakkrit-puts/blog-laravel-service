@@ -4,22 +4,30 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Image\Image;
+use Illuminate\Support\Str;
 
 class UploadController extends Controller
 {
     public function uploadImage(Request $request)
     {
         $request->validate([
-            'image' => 'required|image|max:2048',
+            'image' => 'required|image|max:4096',
         ]);
 
-        $path = $request->file('image')->store('blogs', 'public');
+        $image = $request->file('image');
+        $filename = Str::uuid().'.webp';
+
+        $imagePath = $image->getPathname();
+
+        $image = Image::load($imagePath)
+            ->width(800)
+            ->save(storage_path("app/public/blogs/{$filename}"), 85, 'webp');
 
         return response()->json([
-            'message' => 'Image uploaded successfully',
-            // 'url' => Storage::url($path),
-            'url' => asset('storage/' . $path),
-            'path' => $path,
+            'message' => 'Image uploaded successfully.',
+            'url' => asset("storage/blogs/{$filename}"),
+            'path' => "blogs/{$filename}",
         ]);
     }
 }

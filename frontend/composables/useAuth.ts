@@ -67,10 +67,34 @@ export const useAuth = () => {
     }
   };
 
+  const register = async (form: {
+    email: string;
+    password: string;
+    name: string;
+  }) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8000/api/register",
+        form
+      );
+
+      if (response?.status === 200) {
+        toast.success(response?.data?.message);
+      }
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        toast.error(err.response?.data?.error || "เกิดข้อผิดพลาด");
+      } else {
+        toast.error("เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ");
+      }
+    }
+  };
+
   return {
     user,
     token,
     login,
     logout,
+    register,
   };
 };
