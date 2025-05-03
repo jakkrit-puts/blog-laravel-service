@@ -27,7 +27,7 @@
           </FormField>
           <Button type="submit" class="w-full">Login</Button>
         </form>
-        <div class="flex items-center justify-center gap-2 mt-3">
+        <div class="flex items-center justify-center gap-2 mt-3 max-md:text-sm">
           <span> ยังไม่มีบัญชีผู้ใช้ใช่หรือไม่ </span>
           <NuxtLink to="/register" class="flex items-center hover:underline gap-2">
             <ArrowRight size="16" /> สมัครสมาชิก

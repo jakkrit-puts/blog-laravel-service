@@ -1,5 +1,5 @@
 <template>
-    <div class="mb-10 lg:mb-20">
+    <div v-if="blogs" class="mb-10 lg:mb-20" >
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-5">
             <div v-for="item in blogs" :key="item.id" class="rounded-lg overflow-hidden">
                 <NuxtImg 

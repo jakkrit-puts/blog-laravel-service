@@ -6,7 +6,7 @@
       </div>
       <div class="w-auto flex items-center justify-between">
         <div v-if="user" class="flex items-center gap-2">
-          <span class="max-md:text-xs ">Hello: {{ user?.name }} </span>
+          <span class="max-md:text-xs">Hello: {{ user?.name }} </span>
          <div v-if="user?.role === 'admin'">
           <Button @click="handleToAdminDashbaord()">
             <User /> <span class="max-md:hidden">Dashboard</span>

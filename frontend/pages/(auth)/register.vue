@@ -34,9 +34,9 @@
               <FormMessage />
             </FormItem>
           </FormField>
-          <Button type="submit" class="w-full">Login</Button>
+          <Button type="submit" class="w-full">Register</Button>
         </form>
-        <div class="flex items-center justify-center gap-2 mt-3">
+        <div class="flex items-center justify-center gap-2 mt-3 max-md:text-sm">
           <span>มีบัญชีผู้ใช้แล้ว </span>
           <NuxtLink to="/login" class="flex items-center hover:underline gap-2">
             <ArrowRight size="16" /> เช้าสู่ระบบ

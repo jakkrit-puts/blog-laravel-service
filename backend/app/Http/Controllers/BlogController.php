@@ -5,12 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Blog;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Http\JsonResponse;
 
 class BlogController extends Controller
 {
     public function index()
     {
-        return Blog::with('user:id,name')->latest()->get();
+        $blogs = Cache::remember('blogs', 60, function () {
+            return Blog::with('user:id,name')->latest()->get();
+        });
+
+        return response()->json($blogs);
     }
 
     public function store(Request $request)
@@ -47,13 +53,17 @@ class BlogController extends Controller
 
     public function show($slug)
     {
-            $blog = Blog::with('user:id,name')->where('slug', $slug)->first();
+        $cacheKey = 'blog_' . $slug;
 
-            if (!$blog) {
-                return response()->json(['error' => 'Blog not found'], 404);
-            }
+        $blog = Cache::remember($cacheKey, 60, function () use ($slug) {
+            return Blog::with('user:id,name')->where('slug', $slug)->first();
+        });
 
-            return response()->json($blog);
+        if (!$blog) {
+            return response()->json(['error' => 'Blog not found'], 404);
+        }
+
+        return response()->json($blog);
     }
 
     public function update(Request $request, $id)
