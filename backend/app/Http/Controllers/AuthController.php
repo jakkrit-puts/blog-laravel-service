@@ -37,7 +37,7 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if (!Hash::check($request->password, $user->password)) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json(['error' => 'email or password not coorect !'], 401);
         } else {
             if (!$token = JWTAuth::attempt($credentials)) {
