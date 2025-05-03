@@ -1,9 +1,15 @@
-# Nuxt Minimal Starter
+# blog APP Jakkrit
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+# create .env
+```
+- create .env file ใช้คำสั่งตามด้านล่าง
+   $ copy .env.example .env
 
-## Setup
+- ใส่ endpoint api
+  NUXT_PUBLIC_API_BASE_URL=              (eg. http://localhost:8000/api)
+```
 
+## Install Package
 Make sure to install dependencies:
 
 ```bash
@@ -21,12 +27,11 @@ bun install
 ```
 
 ## Development Server
-
 Start the development server on `http://localhost:3000`:
 
 ```bash
 # npm
-npm run dev
+npm run dev   (for dev)
 
 # pnpm
 pnpm dev
