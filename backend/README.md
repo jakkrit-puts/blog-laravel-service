@@ -48,4 +48,29 @@
 ```
 
 ## 2. Docker
+```
+--------------
+1. Run คำสั่ง
+--------------
+docker-compose up -d หรือ docker-compose up
 
+--------------
+2. create table in docker
+--------------
+docker exec blog_api php artisan migrate
+
+---------------
+3. Seed Mockup (User, Admin) ลงตาราง User
+---------------
+docker exec blog_api php artisan migrate:fresh --seed
+
+
+---------------
+4. Create Symlink  (กรณีรูปไม่ขึ้น)
+---------------
+- docker exec -it blog_api bash    
+- php artisan storage:link
+
+
+ **หมาายเหตุ blog_api คือ container name
+```
