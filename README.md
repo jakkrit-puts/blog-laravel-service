@@ -25,7 +25,7 @@ docker exec blog_api php artisan migrate
 docker exec blog_api php artisan migrate:fresh --seed
 
 ---------------
-4. Create Symlink  (กรณีรูปไม่ขึ้นและ upload failed)
+4. Create Symlink  ***********(กรณีรูปไม่ขึ้นและ upload failed)
 ---------------
 - docker exec -it blog_api bash    
 - php artisan storage:link
