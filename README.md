@@ -6,6 +6,7 @@ SiteMap
 - Frontend Performance & PageSpeed
 ```
 
+
 ## Docker Run Project
 ```
 --------------
@@ -24,11 +25,14 @@ docker exec blog_api php artisan migrate
 docker exec blog_api php artisan migrate:fresh --seed
 
 ---------------
-4. Create Symlink  (กรณีรูปไม่ขึ้น)
+4. Create Symlink  (กรณีรูปไม่ขึ้นและ upload failed)
 ---------------
 - docker exec -it blog_api bash    
 - php artisan storage:link
+- cd /var/www/storage/app/public  
+- mkdir blogs
 
+หรือ new folder blogs ที่ storage/app/public/.... เครื่องผู้ใช้ (mount volumn auto)
 ---------------
 5. Check Container 
 ---------------

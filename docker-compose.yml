@@ -13,6 +13,7 @@ services:
       - ./backend/.env
     volumes:
       - ./backend:/var/www
+      - vendor-data:/var/www/vendor
     ports:
     - "8000:8000"
     networks:
@@ -66,6 +67,7 @@ services:
 
 volumes:
   mariadb-data:
+  vendor-data:
 
 networks:
   app-network:
